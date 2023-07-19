@@ -42,8 +42,33 @@ function setupControls() {
   })
 }
 
+/*********
+ * TREES *
+ *********/
+
+var templateTreeLeft;
+var templateTreeCenter;
+var templateTreeRight;
+
+function setupTrees() {
+  templateTreeLeft    = document.getElementById('template-tree-left');
+  templateTreeCenter  = document.getElementById('template-tree-center');
+  templateTreeRight   = document.getElementById('template-tree-right');
+  removeTree(templateTreeLeft);
+  removeTree(templateTreeRight);
+  removeTree(templateTreeCenter);
+}
+
+function removeTree(tree) {
+  tree.parentNode.removeChild(tree);
+}
+
 /********
  * GAME *
  ********/
 
 setupControls();  // TODO: AFRAME.registerComponent has to occur before window.onload?
+
+window.onload = function() {
+  setupTrees();
+}

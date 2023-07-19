@@ -14,19 +14,25 @@ Created by Alvin Wan (alvinwan.com)
     <a-scene fog="type: linear; color: #a3d0ed; near:5; far:20">
       <a-sky color="#a3d0ed"></a-sky>
       <!-- Mixins -->
-        <a-mixin id="foliage" geometry="
+      <a-mixin
+        id="foliage"
+        geometry="
       primitive: cone;
       segments-height: 1;
       segments-radial:4;
       radius-bottom:0.3;"
-     material="color:white;flat-shading: true;">
+        material="color:white;flat-shading: true;"
+      >
       </a-mixin>
-      <a-mixin id="trunk" geometry="
+      <a-mixin
+        id="trunk"
+        geometry="
       primitive: box;
       height:0.5;
       width:0.1;
       depth:0.1;"
-     material="color:white;"></a-mixin>
+        material="color:white;"
+      ></a-mixin>
       <!-- Lights -->
       <a-light
         type="directional"
@@ -184,11 +190,56 @@ Created by Alvin Wan (alvinwan.com)
       >
         <a-entity id="tree-container" position="0 .5 -1.5" rotation="-90 0 0">
           <!-- Trees -->
-<a-entity id="template-tree-center" shadow scale="0.3 0.3 0.3" position="0 0.6 0">
-  
-</a-entity>
-<a-entity id="template-tree-left" shadow scale="0.3 0.3 0.3" position="0 0.6 0"></a-entity>
-<a-entity id="template-tree-right" shadow scale="0.3 0.3 0.3" position="0 0.6 0"></a-entity>
+          <a-entity
+            id="template-tree-center"
+            shadow
+            scale="0.3 0.3 0.3"
+            position="0 0.6 0"
+          >
+            <a-entity mixin="foliage"></a-entity>
+            <a-entity mixin="trunk" position="0 -0.5 0"></a-entity>
+            <a-animation
+              attribute="position"
+              ease="linear"
+              from="0 0.6 -7"
+              to="0 0.6 1.5"
+              dur="5000"
+            ></a-animation>
+          </a-entity>
+
+          <a-entity
+            id="template-tree-left"
+            shadow
+            scale="0.3 0.3 0.3"
+            position="-0.5 0.55 0"
+          >
+            <a-entity mixin="foliage"></a-entity>
+            <a-entity mixin="trunk" position="0 -0.5 0"></a-entity>
+            <a-animation
+              attribute="position"
+              ease="linear"
+              from="-0.5 0.55 -7"
+              to="-0.5 0.55 1.5"
+              dur="5000"
+            ></a-animation>
+          </a-entity>
+
+          <a-entity
+            id="template-tree-right"
+            shadow
+            scale="0.3 0.3 0.3"
+            position="0.5 0.55 0"
+          >
+            <a-entity mixin="foliage"></a-entity>
+            <a-entity mixin="trunk" position="0 -0.5 0"></a-entity>
+            <a-animation
+              attribute="position"
+              ease="linear"
+              from="0.5 0.55 -7"
+              to="0.5 0.55 1.5"
+              dur="5000"
+            ></a-animation>
+          </a-entity>
 
           <!-- Player -->
           <a-entity id="player" player>
