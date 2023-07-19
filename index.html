@@ -1,17 +1,21 @@
 <!--
-Created by Elva Shen
+Created by Alvin Wan (alvinwan.com)
 -->
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Avoid the Iceburg in Virtual Reality</title>
+    <title>Ergo | Endless Runner Game in Virtual Reality</title>
     <script src="https://aframe.io/releases/0.7.0/aframe.min.js"></script>
     <script src="https://cdn.jsdelivr.net/gh/alvinwan/aframe-low-poly@0.0.2/dist/aframe-low-poly.min.js"></script>
     <script src="./assets/ocean.js"></script>
     <script src="./assets/ergo.js"></script>
   </head>
   <body>
-    <a-scene fog="type: linear; color: #a3d0ed; near:5; far:20">
+    <!--   add the cursor propety so that the start button can invoke the click event  -->
+    <a-scene
+      fog="type: linear; color: #a3d0ed; near:5; far:20"
+      cursor="rayOrigin: mouse"
+    >
       <a-sky color="#a3d0ed"></a-sky>
 
       <!-- Mixins -->
@@ -40,6 +44,36 @@ Created by Elva Shen
              font:exo2bold;
              anchor:center;
              align:center;"
+        ></a-mixin>
+        <a-mixin
+          id="title"
+          text="
+       font:exo2bold;
+       height:40;
+       width:40;
+       opacity:0.75;
+       anchor:center;
+       align:center;"
+        ></a-mixin>
+        <a-mixin
+          id="heading"
+          text="
+       font:exo2bold;
+       height:10;
+       width:10;
+       opacity:0.75;
+       anchor:center;
+       align:center;"
+        ></a-mixin>
+        <a-mixin
+          id="copy"
+          text="
+       font:exo2bold;
+       height:5;
+       width:5;
+       opacity:0.75;
+       anchor:center;
+       align:center;"
         ></a-mixin>
       </a-assets>
 
@@ -266,6 +300,55 @@ Created by Elva Shen
             position="0 1.2 -3"
             opacity="0.75"
           ></a-text>
+
+          <!-- Menus -->
+          <a-entity id="menu-container">
+            <a-entity id="start-menu" position="0 1.1 -3">
+              <a-entity id="start-copy" position="0 1 0">
+                <a-text
+                  value="Turn left and right to move your player, and avoid the trees!"
+                  mixin="copy"
+                ></a-text>
+                <a-text
+                  value="Start"
+                  position="0 0.75 0"
+                  mixin="heading"
+                ></a-text>
+                <a-box
+                  id="start-button"
+                  position="0 0.65 -0.05"
+                  width="1.5"
+                  height="0.6"
+                  depth="0.1"
+                ></a-box>
+              </a-entity>
+              <!--     <a-text value="ERGO" mixin="title"></a-text> -->
+            </a-entity>
+            <a-entity id="game-over" position="0 1.1 -3">
+              <a-text
+                value="?"
+                mixin="heading"
+                id="game-score"
+                position="0 1.7 0"
+              ></a-text>
+              <a-text value="Score" mixin="copy" position="0 1.2 0"></a-text>
+              <a-entity id="game-over-copy">
+                <a-text
+                  value="Restart"
+                  mixin="heading"
+                  position="0 0.7 0"
+                ></a-text>
+                <a-box
+                  id="restart-button"
+                  position="0 0.6 -0.05"
+                  width="2"
+                  height="0.6"
+                  depth="0.1"
+                ></a-box>
+              </a-entity>
+              <a-text value="Game Over" mixin="title"></a-text>
+            </a-entity>
+          </a-entity>
 
           <!-- Player -->
           <a-entity id="player" player>

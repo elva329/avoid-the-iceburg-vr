@@ -1,5 +1,5 @@
 /**
- * Created by Elva Shen
+ * Created by Alvin Wan (alvinwan.com)
  **/
 
 const POSITION_X_LEFT = -0.5;
@@ -20,10 +20,10 @@ var player_position_index = 1;
 function movePlayerTo(position_index) {
   player_position_index = position_index;
 
-  var position = {x: 0, y: 0, z: 0}
-  if      (position_index == 0) position.x = POSITION_X_LEFT;
+  var position = { x: 0, y: 0, z: 0 };
+  if (position_index == 0) position.x = POSITION_X_LEFT;
   else if (position_index == 1) position.x = POSITION_X_CENTER;
-  else                          position.x = POSITION_X_RIGHT;
+  else position.x = POSITION_X_RIGHT;
   document.getElementById('player').setAttribute('position', position);
 }
 
@@ -35,11 +35,11 @@ function setupControls() {
     tick: function (time, timeDelta) {
       var rotation = this.el.object3D.rotation;
 
-      if      (rotation.y > 0.1)  movePlayerTo(0);
+      if (rotation.y > 0.1) movePlayerTo(0);
       else if (rotation.y < -0.1) movePlayerTo(2);
-      else                        movePlayerTo(1);
-    }
-  })
+      else movePlayerTo(1);
+    },
+  });
 }
 
 /*********
@@ -55,11 +55,11 @@ var numberOfTrees = 0;
 var treeTimer;
 
 function setupTrees() {
-  templateTreeLeft    = document.getElementById('template-tree-left');
-  templateTreeCenter  = document.getElementById('template-tree-center');
-  templateTreeRight   = document.getElementById('template-tree-right');
-  treeContainer       = document.getElementById('tree-container');
-  templates           = [templateTreeLeft, templateTreeCenter, templateTreeRight];
+  templateTreeLeft = document.getElementById('template-tree-left');
+  templateTreeCenter = document.getElementById('template-tree-center');
+  templateTreeRight = document.getElementById('template-tree-right');
+  treeContainer = document.getElementById('tree-container');
+  templates = [templateTreeLeft, templateTreeCenter, templateTreeRight];
 
   removeTree(templateTreeLeft);
   removeTree(templateTreeRight);
@@ -88,25 +88,26 @@ function addTreeTo(position_index) {
 /**
  * Add any number of trees across different lanes, randomly.
  **/
-function addTreesRandomly(
-  {
-    probTreeLeft = 0.5,
-    probTreeCenter = 0.5,
-    probTreeRight = 0.5,
-    maxNumberTrees = 2
-  } = {}) {
-
+function addTreesRandomly({
+  probTreeLeft = 0.5,
+  probTreeCenter = 0.5,
+  probTreeRight = 0.5,
+  maxNumberTrees = 2,
+} = {}) {
   var trees = [
-    {probability: probTreeLeft,   position_index: 0},
-    {probability: probTreeCenter, position_index: 1},
-    {probability: probTreeRight,  position_index: 2},
-  ]
+    { probability: probTreeLeft, position_index: 0 },
+    { probability: probTreeCenter, position_index: 1 },
+    { probability: probTreeRight, position_index: 2 },
+  ];
   shuffle(trees);
 
   var numberOfTreesAdded = 0;
   var position_indices = [];
   trees.forEach(function (tree) {
-    if (Math.random() < tree.probability && numberOfTreesAdded < maxNumberTrees) {
+    if (
+      Math.random() < tree.probability &&
+      numberOfTreesAdded < maxNumberTrees
+    ) {
       addTreeTo(tree.position_index);
       numberOfTreesAdded += 1;
 
@@ -117,7 +118,7 @@ function addTreesRandomly(
   return numberOfTreesAdded;
 }
 
-function addTreesRandomlyLoop({intervalLength = 500} = {}) {
+function addTreesRandomlyLoop({ intervalLength = 500 } = {}) {
   treeTimer = setInterval(addTreesRandomly, intervalLength);
 }
 
@@ -130,8 +131,8 @@ const POSITION_Z_LINE_START = 0.6;
 const POSITION_Z_LINE_END = 0.7;
 
 AFRAME.registerComponent('player', {
-  tick: function() {
-    document.querySelectorAll('.tree').forEach(function(tree) {
+  tick: function () {
+    document.querySelectorAll('.tree').forEach(function (tree) {
       position = tree.getAttribute('position');
       tree_position_index = tree.getAttribute('data-tree-position-index');
       tree_id = tree.getAttribute('id');
@@ -142,8 +143,11 @@ AFRAME.registerComponent('player', {
 
       if (!isGameRunning) return;
 
-      if (POSITION_Z_LINE_START < position.z && position.z < POSITION_Z_LINE_END
-          && tree_position_index == player_position_index) {
+      if (
+        POSITION_Z_LINE_START < position.z &&
+        position.z < POSITION_Z_LINE_END &&
+        tree_position_index == player_position_index
+      ) {
         gameOver();
       }
 
@@ -151,9 +155,9 @@ AFRAME.registerComponent('player', {
         addScoreForTree(tree_id);
         updateScoreDisplay();
       }
-    })
-  }
-})
+    });
+  },
+});
 
 /*********
  * SCORE *
@@ -183,6 +187,60 @@ function updateScoreDisplay() {
   scoreDisplay.setAttribute('value', score);
 }
 
+var menuStart;
+var menuGameOver;
+var menuContainer;
+var isGameRunning = false;
+var startButton;
+var restartButton;
+
+function setupAllMenus() {
+  menuStart = document.getElementById('start-menu');
+  menuGameOver = document.getElementById('game-over');
+  menuContainer = document.getElementById('menu-container');
+  startButton = document.getElementById('start-button');
+  restartButton = document.getElementById('restart-button');
+  startButton.addEventListener('click', startGame);
+  restartButton.addEventListener('click', startGame);
+  showStartMenu();
+}
+
+function hideEntity(el) {
+  el.setAttribute('visible', false);
+}
+
+function showEntity(el) {
+  el.setAttribute('visible', true);
+}
+
+function showAllMenus() {
+  showEntity(menuContainer);
+  startButton.classList.add('clickable');
+  restartButton.classList.add('clickable');
+}
+
+function hideAllMenus() {
+  hideEntity(menuContainer);
+  startButton.classList.remove('clickable');
+  restartButton.classList.remove('clickable');
+}
+
+function showGameOverMenu() {
+  showEntity(menuContainer);
+  hideEntity(menuStart);
+  showEntity(menuGameOver);
+  startButton.classList.remove('clickable');
+  restartButton.classList.add('clickable');
+}
+
+function showStartMenu() {
+  showEntity(menuContainer);
+  hideEntity(menuGameOver);
+  showEntity(menuStart);
+  startButton.classList.add('clickable');
+  restartButton.classList.remove('clickable');
+}
+
 /********
  * GAME *
  ********/
@@ -195,6 +253,7 @@ function gameOver() {
   alert('Game Over! Refresh to start over.');
   teardownTrees();
   teardownScore();
+  showGameOverMenu();
 }
 
 function startGame() {
@@ -204,15 +263,17 @@ function startGame() {
   setupScore();
   updateScoreDisplay();
   addTreesRandomlyLoop();
+  hideAllMenus();
 }
 
-setupControls();  // TODO: AFRAME.registerComponent has to occur before window.onload?
+setupControls(); // TODO: AFRAME.registerComponent has to occur before window.onload?
 
-window.onload = function() {
+window.onload = function () {
   setupScore();
   setupTrees();
-  startGame();
-}
+  setupAllMenus();
+  // startGame();
+};
 
 /*************
  * UTILITIES *
@@ -223,12 +284,12 @@ window.onload = function() {
  * @param {Array} a items An array containing the items.
  */
 function shuffle(a) {
-   var j, x, i;
-   for (i = a.length - 1; i > 0; i--) {
-       j = Math.floor(Math.random() * (i + 1));
-       x = a[i];
-       a[i] = a[j];
-       a[j] = x;
-   }
-   return a;
+  var j, x, i;
+  for (i = a.length - 1; i > 0; i--) {
+    j = Math.floor(Math.random() * (i + 1));
+    x = a[i];
+    a[i] = a[j];
+    a[j] = x;
+  }
+  return a;
 }
