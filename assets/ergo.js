@@ -184,6 +184,47 @@ function updateScoreDisplay() {
 }
 
 /********
+ * MENU *
+ ********/
+
+var menuStart;
+var menuGameOver;
+var menuContainer;
+var isGameRunning = false;
+var startButton;
+var restartButton;
+
+var restartButton;
+
+function hideEntity(el) {
+  el.setAttribute('visible', false);
+}
+
+function showEntity(el) {
+  el.setAttribute('visible', true);
+}
+
+function setupAllMenus() {
+  menuStart     = document.getElementById('start-menu');
+  menuGameOver  = document.getElementById('game-over');
+  menuContainer = document.getElementById('menu-container');
+  startButton   = document.getElementById('start-button');
+  restartButton = document.getElementById('restart-button');
+  startButton.addEventListener('click', startGame);
+  restartButton.addEventListener('click', startGame);
+  showStartMenu();
+}
+
+function hideAllMenus() {
+}
+
+function showGameOverMenu() {
+}
+
+function showStartMenu() {
+}
+
+/********
  * GAME *
  ********/
 
@@ -195,6 +236,7 @@ function gameOver() {
   alert('Game Over! Refresh to start over.');
   teardownTrees();
   teardownScore();
+  showGameOverMenu();
 }
 
 function startGame() {
@@ -204,11 +246,13 @@ function startGame() {
   setupScore();
   updateScoreDisplay();
   addTreesRandomlyLoop();
+  hideAllMenus();
 }
 
 setupControls();  // TODO: AFRAME.registerComponent has to occur before window.onload?
 
 window.onload = function() {
+   setupAllMenus();
   setupScore();
   setupTrees();
   startGame();
