@@ -45,10 +45,10 @@ AFRAME.registerComponent('ocean', {
     opacity: {default: 0.8}
   },
 
-  /**
-   * Use play() instead of init(), because component mappings – unavailable as dependencies – are
-   * not guaranteed to have parsed when this component is initialized.
-   * /
+  /*
+   Use play() instead of init(), because component mappings – unavailable as dependencies – are
+    not guaranteed to have parsed when this component is initialized.
+   */
   play: function () {
     const el = this.el,
         data = this.data;

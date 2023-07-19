@@ -7,6 +7,8 @@ Created by Alvin Wan (alvinwan.com)
     <title>Ergo | Endless Runner Game in Virtual Reality</title>
     <script src="https://aframe.io/releases/0.7.0/aframe.min.js"></script>
     <script src="https://cdn.jsdelivr.net/gh/alvinwan/aframe-low-poly@0.0.2/dist/aframe-low-poly.min.js"></script>
+    <script src="./assets/ocean.js"></script>
+    <script src="./assets/ergo.js"></script>
   </head>
   <body>
     <a-scene fog="type: linear; color: #a3d0ed; near:5; far:20">
@@ -15,7 +17,7 @@ Created by Alvin Wan (alvinwan.com)
       <!-- Lights -->
       <a-light
         type="directional"
-        castShadow="true"
+        castshadow="true"
         intensity="0.4"
         color="#D0EAF9;"
         position="5 3 1"
@@ -23,10 +25,38 @@ Created by Alvin Wan (alvinwan.com)
       <a-light intensity="0.8" type="ambient" color="#B4C5EC"></a-light>
 
       <!-- Camera -->
-      <a-camera position="0 0 2.5"></a-camera>
+      <a-camera position="0 0 2.5" lane-controls position...>
+        <a-entity
+          id="cursor-mobile"
+          cursor="fuse: true; fuseTimeout: 250"
+          position="0 0 -1"
+          geometry="primitive: ring; radiusInner: 0.02; radiusOuter: 0.03"
+          material="color: white; shader: flat"
+          scale="0.5 0.5 0.5"
+          raycaster="far: 50; interval: 1000; objects: .clickable"
+        />
+        <a-animation
+          begin="fusing"
+          easing="ease-in"
+          attribute="scale"
+          fill="backwards"
+          from="1 1 1"
+          to="0.2 0.2 0.2"
+          dur="250"
+        ></a-animation>
+      </a-camera>
 
       <!-- Icebergs -->
-      <lp-cone class="iceberg" amplitude-variance="0.25" ...>
+      <lp-cone
+        class="iceberg"
+        amplitude-variance="0.25"
+        segments-radial="5"
+        segments-height="3"
+        height="1"
+        radius-top="0.15"
+        radius-bottom="0.5"
+        position="3 -0.1 -1.5"
+      >
         <a-animation
           attribute="rotation"
           from="-5 0 0"
@@ -44,7 +74,16 @@ Created by Alvin Wan (alvinwan.com)
           easing="linear"
         ></a-animation>
       </lp-cone>
-      <lp-cone class="iceberg" amplitude="0.12" ...>
+      <lp-cone
+        class="iceberg"
+        amplitude="0.12"
+        segments-radial="7"
+        segments-height="3"
+        height="0.5"
+        radius-top="0.25"
+        radius-bottom="0.35"
+        position="-3 -0.1 -0.5"
+      >
         <a-animation
           attribute="rotation"
           from="0 0 -5"
@@ -63,7 +102,16 @@ Created by Alvin Wan (alvinwan.com)
           easing="linear"
         ></a-animation>
       </lp-cone>
-      <lp-cone class="iceberg" amplitude="0.1" ...>
+      <lp-cone
+        class="iceberg"
+        amplitude="0.1"
+        segments-radial="6"
+        segments-height="2"
+        height="0.5"
+        radius-top="0.25"
+        radius-bottom="0.25"
+        position="-5 -0.2 -3.5"
+      >
         <a-animation
           attribute="rotation"
           from="5 0 -5"
@@ -84,16 +132,31 @@ Created by Alvin Wan (alvinwan.com)
       </lp-cone>
 
       <!-- Ocean -->
-      <a-box
+      <a-ocean
         depth="50"
         width="50"
-        height="1"
-        color="#7AD2F7"
-        position="0 -0.5 0"
-      ></a-box>
+        amplitude="0"
+        amplitude-variance="0.1"
+        speed="1.5"
+        speed-variance="1"
+        opacity="1"
+        density="50"
+      ></a-ocean>
+      <a-ocean
+        depth="50"
+        width="50"
+        opacity="0.5"
+        amplitude="0"
+        amplitude-variance="0.15"
+        speed="1.5"
+        speed-variance="1"
+        density="50"
+      ></a-ocean>
 
       <!-- Platform -->
       <lp-cone
+        amplitude="0.05"
+        amplitude-variance="0.05"
         scale="2 2 2"
         shadow
         position="0 -3.5 -1.5"
@@ -108,8 +171,8 @@ Created by Alvin Wan (alvinwan.com)
       >
         <a-entity id="tree-container" position="0 .5 -1.5" rotation="-90 0 0">
           <!-- Player -->
-          <a-entity id="player" ...>
-            <a-sphere ...>
+          <a-entity id="player" player>
+            <a-sphere radius="0.05">
               <a-animation
                 repeat="indefinite"
                 direction="alternate"
@@ -126,7 +189,7 @@ Created by Alvin Wan (alvinwan.com)
                 to="0.055"
                 dur="1500"
               ></a-animation>
-              <a-light ...>
+              <a-light type="point" intensity="0.35" color="#FF440C">
                 <a-animation
                   repeat="indefinite"
                   direction="alternate-reverse"
