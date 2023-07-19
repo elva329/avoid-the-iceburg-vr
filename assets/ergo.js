@@ -1,5 +1,5 @@
 /**
- * Created by Alvin Wan (alvinwan.com)
+ * Created by Elva Shen
  **/
 
 const POSITION_X_LEFT = -0.5;
