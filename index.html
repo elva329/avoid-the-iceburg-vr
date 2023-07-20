@@ -1,10 +1,10 @@
 <!--
-Created by Alvin Wan (alvinwan.com)
+Created by Elva Shen
 -->
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Ergo | Endless Runner Game in Virtual Reality</title>
+    <title>Avoid the iceberg</title>
     <script src="https://aframe.io/releases/0.7.0/aframe.min.js"></script>
     <script src="https://cdn.jsdelivr.net/gh/alvinwan/aframe-low-poly@0.0.2/dist/aframe-low-poly.min.js"></script>
     <script src="./assets/ocean.js"></script>
@@ -295,9 +295,9 @@ Created by Alvin Wan (alvinwan.com)
             id="score"
             value=""
             mixin="text"
-            height="40"
-            width="40"
-            position="0 1.2 -3"
+            height="5"
+            width="5"
+            position="0 1.7 0"
             opacity="0.75"
           ></a-text>
 
@@ -325,12 +325,12 @@ Created by Alvin Wan (alvinwan.com)
               <!--     <a-text value="ERGO" mixin="title"></a-text> -->
             </a-entity>
             <a-entity id="game-over" position="0 1.1 -3">
-              <a-text
+              <!--               <a-text
                 value="?"
                 mixin="heading"
                 id="game-score"
                 position="0 1.7 0"
-              ></a-text>
+              ></a-text> -->
               <a-text value="Score" mixin="copy" position="0 1.2 0"></a-text>
               <a-entity id="game-over-copy">
                 <a-text
